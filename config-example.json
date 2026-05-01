@@ -1,5 +1,13 @@
 {
 	"token": "",
 	"greeting_message": "hola {user.nickname}!",
-	"greeting_channel_id": 12345
+	"greeting_channel_id": 12345,
+	"say_channel_id": 6789,
+	"admins": [
+		123,
+		345
+	],
+	"emotes": {
+		"x": ":x:"
+	}
 }

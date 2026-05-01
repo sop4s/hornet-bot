@@ -2,6 +2,7 @@
 #include <dpp/dpp.h>
 
 using dpp::json;
+using std::string;
 using std::cout;
 using std::endl;
 
@@ -14,7 +15,17 @@ void Bot::run_cmd(const dpp::slashcommand_t& event) {
 	for (auto cmd : cmds) {
 		if (cmd.name != event.command.get_command_name()) continue;
 		cout << "cmd: " << cmd.name << endl;
-		cmd.fn(client, event);
+		cmd.fn(config, client, event);
+	}
+}
+void Bot::register_commands() {
+	for (auto cmd : cmds) {
+		auto slash = dpp::slashcommand(cmd.name, cmd.description, client.me.id);
+		for (auto param : cmd.parameters) {
+			cout << cmd.name << " -> parametro -> " << param.name << endl;
+			slash.add_option(dpp::command_option(param.type, param.name, param.description).set_auto_complete(true));
+		}
+		client.global_command_create(slash);
 	}
 }
 void Bot::register_events() {
@@ -27,11 +38,12 @@ void Bot::register_events() {
 	});
 	client.on_ready([this](const dpp::ready_t& event) {
 		if (dpp::run_once<struct register_bot_commands>()) {
-			client.global_command_create(dpp::slashcommand("ping", "pong", client.me.id));
+			register_commands();
 		}
 	});
 	
 }
+
 void Bot::run(string token) {
 	client.token = token;
 	client.start(dpp::st_wait);

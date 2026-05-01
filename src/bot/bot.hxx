@@ -3,7 +3,12 @@
 
 #include <dpp/cluster.h>
 #include <string>
+#include <unordered_map>
 #include "../commands/commands.hxx"
+
+using std::string;
+using std::list;
+using std::unordered_map;
 
 class Bot {
 	public:
@@ -17,6 +22,7 @@ class Bot {
 	private:
 		dpp::cluster client;
 		std::list<cmd::cmd_list> cmds;
+		void register_commands();
 		void run_cmd(const dpp::slashcommand_t& event);
 		void on_new_member(dpp::guild_member_add_t& event);	
 };
