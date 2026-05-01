@@ -1,0 +1,5 @@
+{
+	"token": "",
+	"greeting_message": "hola {user.nickname}!",
+	"greeting_channel_id": 12345
+}
